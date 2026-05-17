@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+secrets/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Data / runtime
+data/
+logs/
+*.log
+*.sqlite
+*.db
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Alembic local overrides
+alembic.ini.local

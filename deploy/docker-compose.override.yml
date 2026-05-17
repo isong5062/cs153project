@@ -1,0 +1,16 @@
+# VM-only overlay: bind Postgres + Redis to loopback.
+#
+# Docker bypasses UFW on Ubuntu by default, so a published port like
+# "5432:5432" is reachable from the public internet even with `ufw enable`.
+# Binding to 127.0.0.1 closes that hole without fighting iptables.
+#
+# Symlink this as docker-compose.override.yml on the VM; don't commit the
+# symlink. Local dev keeps the upstream 0.0.0.0 binding.
+
+services:
+  postgres:
+    ports:
+      - "127.0.0.1:5432:5432"
+  redis:
+    ports:
+      - "127.0.0.1:6379:6379"
