@@ -1,0 +1,37 @@
+# Backend dependencies (grown across phases).
+
+# --- Web / API ---
+fastapi>=0.115
+uvicorn[standard]>=0.32
+
+# --- DB ---
+sqlalchemy>=2.0.36
+alembic>=1.14
+psycopg[binary]>=3.2
+
+# --- Config ---
+pydantic>=2.9
+pydantic-settings>=2.6
+
+# --- Data / numerics ---
+numpy>=1.26
+pandas>=2.2
+pandas-market-calendars>=4.4
+
+# --- Market data / broker (PAPER only) ---
+alpaca-py>=0.33
+
+# --- Regime model ---
+hmmlearn>=0.3.2
+scikit-learn>=1.4
+
+# --- Self-learning (#4) ---
+anthropic>=0.40
+
+# --- Scheduling (worker loop) ---
+apscheduler>=3.10,<4
+
+# --- HTTP / dev / test ---
+httpx>=0.27
+pytest>=8.3
+ruff>=0.8
