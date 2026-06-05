@@ -9,29 +9,7 @@ Regime Trader reads the overall mood of the stock market with a statistical mode
 | | |
 |---|---|
 | **Project track** | Application / Product · Automation / Agent Systems |
-| **Status** | Complete · 78 backend tests + 7 frontend tests passing · lint clean |
-| **Stack** | FastAPI · SQLAlchemy · hmmlearn · Next.js 16 · TypeScript · Alpaca (paper) · Anthropic Claude |
-
 ---
-
-## Q1 · Why I built this (Problem & Insight)
-
-Running a disciplined trading strategy normally takes a whole **team** — quant researchers, engineers, and risk managers — plus real capital and infrastructure. Everyone else is left with two bad options:
-
-1. **Trade on emotion** — the single biggest reason ordinary investors lose money: buying at the top out of greed, selling at the bottom out of fear.
-2. **Hand money to a "black box" bot** they can neither see inside nor control, and can't trust not to blow up.
-
-CS 153's premise is that *one person with the right AI tools can now replace that whole team.* I wanted to test that directly by building a system that is:
-
-- **Adaptive** — it studies its own performance and proposes improvements,
-- **Human-controlled** — it can *never* change a running strategy without my explicit approval, and
-- **Safe by construction** — a hardcoded risk layer the AI cannot override makes blowing up the account impossible.
-
-The insight is that the hard part isn't predicting the market — it's **discipline and trust**. So the product is built around a single rule: *the human is always in control, and the safety net can never be switched off.*
-
----
-
-## Q2 · How it works (Execution & Technical Work)
 
 ### Architecture
 
@@ -168,56 +146,11 @@ Secrets live only in the gitignored backend `.env` and are **never** sent to the
 
 ---
 
-## Q3 · Use cases & impact
-
-- **Everyday investors** who want a calm, rule-based system instead of emotional trading.
-- **People learning quantitative finance** — because it's paper-only, it's a completely safe sandbox to experiment with real strategies and lose nothing.
-- **Anyone who distrusts black-box bots** — every decision is transparent: the market mood, the exact rules, the AI's reasoning, and a full version history are all visible.
-
-The broader value is **democratizing disciplined investing**: it puts a regime-aware, risk-managed system — the kind that used to require a hedge fund — into one person's hands, with guardrails so they can learn without hurting themselves.
-
----
-
-## Evaluation & evidence
-
-Correctness is enforced by an automated test suite (run `pytest` in `backend/`, `npm test` in `frontend/`):
-
-- **No look-ahead bias** — tests prove regime inference at time *t* uses only data ≤ *t* (forward-filter output on a prefix equals the full-series output), features are causal, and walk-forward backtesting has no in-sample/out-of-sample leakage.
-- **Risk layer** — each circuit breaker fires on simulated equity curves, including exact-threshold boundary cases (e.g. −10.000% drawdown), and the clamp tightens a too-loose strategy.
-- **Safety guards** — a non-paper broker config raises; an API test asserts no secret ever appears in `/settings` output.
-- **Determinism** — the simulator produces deterministic next-bar fills; metrics (return, drawdown, Sharpe, win-rate) are checked against hand-computed values, including degenerate inputs.
-- **Backtests** report metrics against **benchmarks** (buy-and-hold, 200-day SMA, random) plus crash stress tests.
-- **End-to-end** — an in-process test runs the whole vision (regime → strategy → simulated trade → proposal → approval) with no network or keys.
-
-**Result:** 78 backend tests + 7 frontend tests passing; `ruff` and `next build` clean.
-
----
-
-## Q4 · What I'd add next
-
-- A **visual strategy builder** (sliders/forms) so rules are edited without touching JSON.
-- **Charts** — backtest equity curves and a live price-with-regime overlay.
-- A carefully-guarded path to **real-money trading** with extra confirmations and reconciliation.
-- **More data & assets** — paid SIP data, options, crypto, and richer regime features.
-- **Multi-user accounts** with real authentication (the schema already carries `user_id`).
-- An on-demand **"suggest improvements"** button to trigger Claude proposals from the UI.
-
----
-
-## Guardrails (non-negotiable, enforced in code + tests)
-1. **Paper-only lock** — no real-money path ships; non-paper config raises.
-2. **No look-ahead** — forward-filtering only; causal features.
-3. **Risk layer is supreme** — hardcoded breakers + clamp, independent of the AI.
-4. **Nothing auto-mutates a live strategy** — user edits apply directly; every AI proposal requires explicit approval and creates a new immutable version.
-5. **Secrets stay in the backend** — never exposed to the frontend or the LLM.
-
----
-
 ## Process, integrity & AI-usage disclosure
 
 This is a **solo project**, built from scratch (the repository began empty — no forked or borrowed base code). All product, architecture, and risk-design decisions are my own.
 
-Per the course AI policy, here is **how and where AI tools were used**: I built this project using **Claude Code** (Anthropic's agentic coding tool, Claude Opus) as a pair-programmer to scaffold and implement the FastAPI backend, the HMM regime engine, the risk layer, the Next.js frontend, and the test suite under my direction. I specified the requirements, made the design and safety decisions, and reviewed the code and tests. The application also uses the **Anthropic Claude API** at runtime as the optional self-learning proposer (see [`backend/app/engine/learning/`](backend/app/engine/learning/)). Development history is visible in the public commit log.
+Per the course AI policy, here is **how and where AI tools were used**: I built this project using **Claude Code** (Anthropic's agentic coding tool, Claude Opus) as a pair-programmer to scaffold and implement the FastAPI backend, the HMM regime engine, the risk layer, the Next.js frontend, and the test suite under my direction. I specified the requirements, made the design and safety decisions, and reviewed the code and tests.
 
 ### Limitations (honest disclosure)
 - **Paper-only** — not validated with real capital; live trading is deliberately out of scope for v1.
@@ -226,5 +159,3 @@ Per the course AI policy, here is **how and where AI tools were used**: I built 
 - Offline demos use **synthetic** data; live behavior requires Alpaca/Anthropic keys and market hours.
 
 ---
-
-*Author: Ian Song · Stanford CS 153. Educational project — not financial advice.*
