@@ -1,6 +1,6 @@
 # Regime Trader
 
-**A self-learning, regime-aware automated trading web app for US equities — built solo for [Stanford CS 153](#) ("The One-Person Frontier Lab").**
+**A self-learning, regime-aware automated trading web app for US equities.**
 
 Regime Trader reads the overall mood of the stock market with a statistical model, runs trading strategies that you either control by hand or let an AI improve (with your approval), and wraps everything in a hardcoded safety net. It runs entirely on **paper trading** — real live market prices, fake money — so there is zero financial risk.
 
